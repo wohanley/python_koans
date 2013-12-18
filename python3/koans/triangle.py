@@ -25,7 +25,17 @@ triangleTypes = {
 }
 
 def triangle(a, b, c):
-    return triangleTypes[len({a, b, c})]
+    uniqueEdgeLengths = {a, b, c}
+
+    # fail if there are edges with negative lengths
+    if [x for x in uniqueEdgeLengths if x <= 0]:
+        raise TriangleError
+
+    # fail if one edge is longer than the sum of the others
+    if a >= b + c or b >= a + c or c >= a + b:
+        raise TriangleError
+
+    return triangleTypes[len(uniqueEdgeLengths)]
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError(Exception):
