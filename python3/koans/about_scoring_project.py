@@ -32,9 +32,42 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
+def find_triple(dice):
+
+    for face in set(dice):
+        if len([x for x in dice if x == face]) >= 3:
+            return face
+
+    return None
+
 def score(dice):
-    # You need to write this method
-    pass
+
+    # an empty list or None scores 0 points
+    if not dice:
+        return 0
+
+    current_score = 0
+
+    triple = find_triple(dice)
+
+    # remove the triple from the dice
+    if triple:
+        for i in range(3):
+            dice.remove(triple)
+        
+        if triple == 1:
+            return score(dice) + 1000
+        else:
+            return score(dice) + 100 * triple
+    else:
+        for face in dice:
+            if face == 1:
+                current_score += 100
+            elif face == 5:
+                current_score += 50
+
+    return current_score
+    
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):
